@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "NutriPlan",
+    "slug": "nutriplan",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "nutriplan",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
