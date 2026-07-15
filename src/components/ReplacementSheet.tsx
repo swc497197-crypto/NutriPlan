@@ -1,4 +1,4 @@
-import { Modal, Pressable, StyleSheet, View } from "react-native";
+import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { AppText } from "@/components/AppText";
 import { Card } from "@/components/Card";
@@ -37,7 +37,7 @@ export function ReplacementSheet({ visible, meal, options, onClose, onSelect }: 
             </Pressable>
           </View>
 
-          <View style={styles.options}>
+          <ScrollView contentContainerStyle={styles.options} showsVerticalScrollIndicator={false}>
             {options.map((option) => (
               <Card key={option.id} style={styles.optionCard}>
                 <View style={styles.optionRow}>
@@ -60,7 +60,7 @@ export function ReplacementSheet({ visible, meal, options, onClose, onSelect }: 
                 <PrimaryButton label="选这道" icon="checkmark-outline" onPress={() => onSelect(option)} />
               </Card>
             ))}
-          </View>
+          </ScrollView>
         </View>
       </View>
     </Modal>
@@ -105,7 +105,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface
   },
   options: {
-    gap: spacing.md
+    gap: spacing.md,
+    paddingBottom: spacing.lg
   },
   optionCard: {
     gap: spacing.md
