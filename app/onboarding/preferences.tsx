@@ -12,6 +12,7 @@ import { SectionTitle } from "@/components/SectionTitle";
 import { cookingTimeOptions, dietStyleOptions, kitchenToolOptions } from "@/data/options";
 import { CookingTime } from "@/models/profile";
 import { useAppStore } from "@/store/AppStore";
+import { sampleOnboarding } from "@/store/defaults";
 import { spacing } from "@/theme/spacing";
 import { validatePreferences } from "@/utils/validation";
 
@@ -35,9 +36,27 @@ export default function PreferencesScreen() {
   return (
     <Screen>
       <SectionTitle title="饮食偏好" subtitle="让计划更接近日常生活，而不是只停留在表格里。" />
+      <Card>
+        <View style={styles.stepRow}>
+          <AppText variant="small" weight="700">
+            2 / 3 偏好和限制
+          </AppText>
+          <PrimaryButton
+            label="填入示例"
+            icon="sparkles-outline"
+            variant="quiet"
+            onPress={() => setDraft(sampleOnboarding.preferences)}
+          />
+        </View>
+        <AppText variant="small" muted>
+          预算、时间和厨房设备会影响计划是否真的能执行。
+        </AppText>
+      </Card>
+
       {errors.map((error) => (
         <Notice key={error} tone="error" text={error} />
       ))}
+
       <Card>
         <FormField
           label="过敏食物"
@@ -102,12 +121,18 @@ export default function PreferencesScreen() {
         </View>
       </Card>
 
-      <PrimaryButton label="下一步" icon="arrow-forward-outline" onPress={submit} />
+      <PrimaryButton label="下一步：可选基因倾向" icon="arrow-forward-outline" onPress={submit} />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  stepRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: spacing.md
+  },
   chips: {
     flexDirection: "row",
     flexWrap: "wrap",

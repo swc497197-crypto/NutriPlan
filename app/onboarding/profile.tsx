@@ -12,6 +12,7 @@ import { SectionTitle } from "@/components/SectionTitle";
 import { activityOptions, genderOptions, goalOptions } from "@/data/options";
 import { ActivityLevel, Gender, Goal } from "@/models/profile";
 import { useAppStore } from "@/store/AppStore";
+import { sampleOnboarding } from "@/store/defaults";
 import { spacing } from "@/theme/spacing";
 import { validateProfile } from "@/utils/validation";
 
@@ -30,10 +31,28 @@ export default function ProfileScreen() {
 
   return (
     <Screen>
-      <SectionTitle title="先了解基本情况" subtitle="只收集生成演示计划所需的最少信息。" />
+      <SectionTitle title="先了解基本情况" subtitle="约 1 分钟。只填生成演示计划所需的核心信息。" />
+      <Card>
+        <View style={styles.stepRow}>
+          <AppText variant="small" weight="700">
+            1 / 3 个人资料
+          </AppText>
+          <PrimaryButton
+            label="填入示例"
+            icon="sparkles-outline"
+            variant="quiet"
+            onPress={() => setDraft(sampleOnboarding.profile)}
+          />
+        </View>
+        <AppText variant="small" muted>
+          不确定时可以先用示例资料体验，之后再回到“我的”里修改。
+        </AppText>
+      </Card>
+
       {errors.map((error) => (
         <Notice key={error} tone="error" text={error} />
       ))}
+
       <Card>
         <View style={styles.row}>
           <View style={styles.fieldHalf}>
@@ -106,12 +125,18 @@ export default function ProfileScreen() {
         </View>
       </Card>
 
-      <PrimaryButton label="下一步" icon="arrow-forward-outline" onPress={submit} />
+      <PrimaryButton label="下一步：饮食偏好" icon="arrow-forward-outline" onPress={submit} />
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  stepRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: spacing.md
+  },
   row: {
     flexDirection: "row",
     gap: spacing.md

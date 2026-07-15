@@ -34,7 +34,15 @@ export default function GeneticsScreen() {
 
   return (
     <Screen>
-      <SectionTitle title="基因营养倾向" subtitle="可跳过。这里仅用于演示如何辅助调整饮食建议。" />
+      <SectionTitle title="基因营养倾向" subtitle="可跳过。这里只演示如何辅助调整饮食建议。" />
+      <Card>
+        <AppText variant="small" weight="700">
+          3 / 3 可选信息
+        </AppText>
+        <AppText variant="small" muted>
+          没有检测信息时，选择“暂无相关检测信息”即可。
+        </AppText>
+      </Card>
       <Notice text="基因信息仅用于辅助调整饮食建议，不能单独用于诊断营养缺乏。" />
       <Card>
         <AppText weight="700">模拟选择</AppText>
