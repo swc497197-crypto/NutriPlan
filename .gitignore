@@ -2,6 +2,7 @@ node_modules/
 .expo/
 dist/
 dist-web/
+screenshots/
 web-build/
 npm-debug.log*
 .npm-cache/

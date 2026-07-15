@@ -23,13 +23,21 @@ export default function PlanScreen() {
   return (
     <Screen>
       <View style={styles.header}>
-        <View>
+        <View style={styles.headerText}>
           <AppText variant="h1" weight="700">
             七日饮食计划
           </AppText>
-          <AppText muted>{formatToday()} · 当前目标：{goalText}</AppText>
+          <AppText muted>
+            {formatToday()} · 当前目标：{goalText}
+          </AppText>
         </View>
-        <PrimaryButton label="清单" icon="basket-outline" variant="secondary" onPress={() => router.push("/(tabs)/shopping")} />
+        <PrimaryButton
+          label="清单"
+          icon="basket-outline"
+          variant="secondary"
+          style={styles.listButton}
+          onPress={() => router.push("/(tabs)/shopping")}
+        />
       </View>
 
       <Notice text={demoDataNotice} />
@@ -78,10 +86,16 @@ export default function PlanScreen() {
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "flex-start",
     gap: spacing.md
+  },
+  headerText: {
+    width: "100%"
+  },
+  listButton: {
+    alignSelf: "flex-start",
+    minHeight: 44,
+    paddingHorizontal: spacing.md
   },
   dayTabs: {
     flexDirection: "row",
