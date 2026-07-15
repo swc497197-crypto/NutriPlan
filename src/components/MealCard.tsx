@@ -28,23 +28,25 @@ export function MealCard({ meal, onReplace }: { meal: Meal; onReplace: (meal: Me
           <AppText variant="h3" weight="700">
             {meal.name}
           </AppText>
+          <View style={styles.metrics}>
+            <AppText variant="tiny" weight="700" style={styles.metricText}>
+              模拟 {meal.calories} kcal
+            </AppText>
+            <AppText variant="tiny" weight="700" style={styles.metricText}>
+              蛋白质 {meal.protein}g
+            </AppText>
+          </View>
         </View>
       </View>
-      <View style={styles.metrics}>
-        <AppText variant="small" weight="600">
-          模拟 {meal.calories} kcal
-        </AppText>
-        <AppText variant="small" weight="600">
-          蛋白质 {meal.protein}g
-        </AppText>
-      </View>
+
       <AppText muted>{meal.reason}</AppText>
+
       <View style={styles.actions}>
         <PrimaryButton label="查看菜谱" icon="book-outline" onPress={() => router.push(`/recipe/${meal.id}`)} />
         <Pressable accessibilityRole="button" style={styles.replace} onPress={() => onReplace(meal)}>
           <Ionicons name="swap-horizontal-outline" size={18} color={colors.primary} />
           <AppText variant="small" weight="600" style={{ color: colors.primary }}>
-            替换
+            换一道
           </AppText>
         </Pressable>
       </View>
@@ -59,12 +61,16 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   titleWrap: {
-    flex: 1
+    flex: 1,
+    gap: spacing.xs
   },
   metrics: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: spacing.sm
+  },
+  metricText: {
+    color: colors.primaryDark
   },
   actions: {
     flexDirection: "row",

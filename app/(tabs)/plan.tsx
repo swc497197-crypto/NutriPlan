@@ -7,18 +7,35 @@ import { EmptyState } from "@/components/EmptyState";
 import { MealCard } from "@/components/MealCard";
 import { Notice } from "@/components/Notice";
 import { PrimaryButton } from "@/components/PrimaryButton";
+import { ReplacementSheet } from "@/components/ReplacementSheet";
 import { Screen } from "@/components/Screen";
-import { demoDataNotice } from "@/data/menu";
+import { demoDataNotice, getReplacementMeals } from "@/data/menu";
+import { Meal } from "@/models/meal";
 import { useAppStore } from "@/store/AppStore";
 import { colors } from "@/theme/colors";
 import { spacing } from "@/theme/spacing";
 import { formatToday } from "@/utils/date";
 
 export default function PlanScreen() {
-  const { onboarding, plans, planStatus, replaceMeal } = useAppStore();
+  const { onboarding, plans, planStatus, replaceMealWith } = useAppStore();
   const [selectedDay, setSelectedDay] = useState(1);
+  const [mealToReplace, setMealToReplace] = useState<Meal | undefined>();
   const selectedPlan = useMemo(() => plans.find((plan) => plan.day === selectedDay), [plans, selectedDay]);
   const goalText = onboarding.profile.goal === "gentleFatLoss" ? "温和减脂" : "改善日常饮食";
+  const dailyTotal = useMemo(
+    () =>
+      selectedPlan?.meals.reduce(
+        (total, meal) => ({
+          calories: total.calories + meal.calories,
+          protein: total.protein + meal.protein
+        }),
+        { calories: 0, protein: 0 }
+      ) ?? { calories: 0, protein: 0 },
+    [selectedPlan]
+  );
+  const replacementOptions = mealToReplace
+    ? getReplacementMeals(mealToReplace.id, mealToReplace.type, mealToReplace.day, 3)
+    : [];
 
   return (
     <Screen>
@@ -58,6 +75,22 @@ export default function PlanScreen() {
         ))}
       </View>
 
+      {selectedPlan && planStatus !== "empty" ? (
+        <Card style={styles.summaryCard}>
+          <View>
+            <AppText variant="small" muted>
+              今日总览
+            </AppText>
+            <AppText variant="h3" weight="700">
+              {selectedPlan.meals.length} 餐 · 模拟 {dailyTotal.calories} kcal · 蛋白质 {dailyTotal.protein}g
+            </AppText>
+          </View>
+          <AppText variant="small" muted>
+            先看今天能不能执行，再决定是否替换某一餐。
+          </AppText>
+        </Card>
+      ) : null}
+
       {planStatus === "loading" ? (
         <Card style={styles.centerCard}>
           <ActivityIndicator color={colors.primary} />
@@ -76,10 +109,26 @@ export default function PlanScreen() {
       {selectedPlan && planStatus !== "empty" ? (
         <View style={styles.meals}>
           {selectedPlan.meals.map((meal, index) => (
-            <MealCard key={`${selectedPlan.day}-${meal.type}-${meal.id}-${index}`} meal={meal} onReplace={replaceMeal} />
+            <MealCard
+              key={`${selectedPlan.day}-${meal.type}-${meal.id}-${index}`}
+              meal={meal}
+              onReplace={setMealToReplace}
+            />
           ))}
         </View>
       ) : null}
+
+      <ReplacementSheet
+        visible={Boolean(mealToReplace)}
+        meal={mealToReplace}
+        options={replacementOptions}
+        onClose={() => setMealToReplace(undefined)}
+        onSelect={(replacement) => {
+          if (!mealToReplace) return;
+          replaceMealWith(mealToReplace, replacement);
+          setMealToReplace(undefined);
+        }}
+      />
     </Screen>
   );
 }
@@ -114,6 +163,9 @@ const styles = StyleSheet.create({
   dayPillActive: {
     backgroundColor: colors.primary,
     borderColor: colors.primary
+  },
+  summaryCard: {
+    backgroundColor: colors.surfaceMuted
   },
   meals: {
     gap: spacing.md

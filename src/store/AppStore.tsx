@@ -20,6 +20,7 @@ type AppStoreValue = {
   resetLocalData: () => void;
   regeneratePlan: () => void;
   replaceMeal: (meal: Meal) => void;
+  replaceMealWith: (currentMeal: Meal, replacementMeal: Meal) => void;
   toggleShoppingItem: (id: string) => void;
   allShoppingItems: ShoppingItem[];
 };
@@ -95,7 +96,25 @@ export function AppStoreProvider({ children }: PropsWithChildren) {
               ? {
                   ...day,
                   meals: day.meals.map((item) =>
-                    item.id === meal.id && item.type === meal.type ? { ...replacement, day: meal.day } : item
+                    item.id === meal.id && item.type === meal.type
+                      ? { ...replacement, day: meal.day, type: meal.type }
+                      : item
+                  )
+                }
+              : day
+          )
+        );
+      },
+      replaceMealWith: (currentMeal, replacementMeal) => {
+        setPlans((current) =>
+          current.map((day) =>
+            day.day === currentMeal.day
+              ? {
+                  ...day,
+                  meals: day.meals.map((item) =>
+                    item.id === currentMeal.id && item.type === currentMeal.type
+                      ? { ...replacementMeal, day: currentMeal.day, type: currentMeal.type }
+                      : item
                   )
                 }
               : day

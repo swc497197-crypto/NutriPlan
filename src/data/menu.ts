@@ -468,6 +468,10 @@ export function getMealById(id: string) {
 }
 
 export function getReplacementMeal(currentId: string, type: MealType, currentDay: number) {
+  return getReplacementMeals(currentId, type, currentDay, 1)[0];
+}
+
+export function getReplacementMeals(currentId: string, type: MealType, currentDay: number, limit = 3) {
   const candidates = meals
     .filter((meal) => meal.type === type && meal.id !== currentId)
     .sort((first, second) => {
@@ -476,7 +480,7 @@ export function getReplacementMeal(currentId: string, type: MealType, currentDay
       return firstDistance - secondDistance;
     });
 
-  return candidates[0] ? withMealImage(candidates[0]) : undefined;
+  return candidates.slice(0, limit).map(withMealImage);
 }
 
 function withMealImage(meal: Meal): Meal {
