@@ -34,12 +34,12 @@ export default function RecipeScreen() {
 
   return (
     <Screen>
-      <View>
+      <View style={styles.titleBlock}>
         <AppText variant="h1" weight="700">
           {meal.name}
         </AppText>
         <AppText muted>
-          {meal.timeMinutes} 分钟 · {meal.difficulty}
+          {meal.reason}
         </AppText>
       </View>
 
@@ -48,26 +48,21 @@ export default function RecipeScreen() {
         图片为示意图，实际成品可能因食材和烹饪方式不同而变化。
       </AppText>
 
+      <Card style={styles.quickFacts}>
+        <Metric label="时间" value={`${meal.timeMinutes} 分钟`} />
+        <Metric label="难度" value={meal.difficulty} />
+        <Metric label="模拟热量" value={`${meal.calories} kcal`} />
+      </Card>
+
       <Notice text="本页营养摘要为模拟展示，不用于正式营养判断。" />
 
       <Card>
         <AppText variant="h3" weight="700">
-          模拟营养摘要
-        </AppText>
-        <View style={styles.metricRow}>
-          <Metric label="热量" value={`${meal.calories} kcal`} />
-          <Metric label="蛋白质" value={`${meal.protein}g`} />
-        </View>
-        <AppText muted>{meal.reason}</AppText>
-      </Card>
-
-      <Card>
-        <AppText variant="h3" weight="700">
-          食材和重量
+          食材和替换
         </AppText>
         {meal.ingredients.map((ingredient) => (
           <View key={ingredient.name} style={styles.ingredient}>
-            <View>
+            <View style={styles.ingredientMain}>
               <AppText weight="600">{ingredient.name}</AppText>
               <AppText variant="small" muted>
                 {ingredient.amount}
@@ -85,7 +80,7 @@ export default function RecipeScreen() {
           烹饪步骤
         </AppText>
         {meal.steps.map((step, index) => (
-          <View key={step} style={styles.step}>
+          <View key={`${index}-${step}`} style={styles.step}>
             <View style={styles.stepNumber}>
               <AppText variant="tiny" weight="700" style={{ color: "#FFFFFF" }}>
                 {index + 1}
@@ -98,7 +93,10 @@ export default function RecipeScreen() {
 
       <Card>
         <AppText variant="h3" weight="700">
-          反馈
+          反馈这道菜
+        </AppText>
+        <AppText variant="small" muted>
+          当前为原型交互，反馈暂存在界面层用于测试体验。
         </AppText>
         <View style={styles.feedbackGrid}>
           {feedback.map((item) => (
@@ -115,7 +113,7 @@ export default function RecipeScreen() {
   );
 }
 
-function Metric({ label, value }: { label: string; value: string }) {
+function Metric({ label, value }: { label: string; value: string | number }) {
   return (
     <View style={styles.metric}>
       <AppText variant="small" muted>
@@ -129,9 +127,12 @@ function Metric({ label, value }: { label: string; value: string }) {
 }
 
 const styles = StyleSheet.create({
-  metricRow: {
+  titleBlock: {
+    gap: spacing.sm
+  },
+  quickFacts: {
     flexDirection: "row",
-    gap: spacing.md
+    gap: spacing.sm
   },
   metric: {
     flex: 1,
@@ -144,6 +145,11 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.border,
     paddingBottom: spacing.md,
     gap: spacing.xs
+  },
+  ingredientMain: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: spacing.md
   },
   subText: {
     flexShrink: 1
