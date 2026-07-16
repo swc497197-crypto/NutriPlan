@@ -6,10 +6,11 @@ import { spacing } from "@/theme/spacing";
 
 type ScreenProps = PropsWithChildren<{
   scroll?: boolean;
+  compact?: boolean;
 }>;
 
-export function Screen({ children, scroll = true }: ScreenProps) {
-  const content = <View style={styles.content}>{children}</View>;
+export function Screen({ children, scroll = true, compact = false }: ScreenProps) {
+  const content = <View style={[styles.content, compact && styles.compactContent]}>{children}</View>;
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -40,5 +41,11 @@ const styles = StyleSheet.create({
     paddingTop: spacing.lg,
     paddingBottom: 96,
     gap: spacing.lg
+  },
+  compactContent: {
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.md,
+    paddingBottom: 72,
+    gap: spacing.sm
   }
 });
