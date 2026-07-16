@@ -6,6 +6,7 @@ export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
+        headerShown: false,
         headerStyle: { backgroundColor: colors.background },
         headerShadowVisible: false,
         tabBarActiveTintColor: colors.primary,
@@ -20,7 +21,16 @@ export default function TabsLayout() {
         name="plan"
         options={{
           title: "计划",
+          headerShown: false,
           tabBarIcon: ({ color, size }) => <Ionicons name="calendar-outline" color={color} size={size} />
+        }}
+      />
+      <Tabs.Screen
+        name="share"
+        options={{
+          title: "分享",
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => <Ionicons name="share-social-outline" color={color} size={size} />
         }}
       />
       <Tabs.Screen
