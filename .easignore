@@ -1,0 +1,10 @@
+.expo/
+.expo-home/
+dist/
+dist-web/
+screenshots/
+web-build/
+repo-meta/
+npm-debug.log*
+.npm-cache/
+.git-local/

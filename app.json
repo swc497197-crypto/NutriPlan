@@ -1,13 +1,20 @@
 {
   "expo": {
+    "owner": "swc123",
     "name": "NutriPlan",
     "slug": "nutriplan",
     "version": "0.1.0",
     "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "scheme": "nutriplan",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "bundleIdentifier": "com.swc497197.nutriplan",
+      "buildNumber": "1",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "web": {
       "bundler": "metro",
@@ -18,6 +25,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4cc1a344-573f-4552-98ba-cdfbb56323ac"
+      }
     }
   }
 }
